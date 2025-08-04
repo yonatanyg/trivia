@@ -1,51 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+import MovieForm from "./components/MovieComps/MovieForm";
+import MovieList from "./components/MovieComps/MovieList";
+
+import AddQuestions from "./components/AdminComponents/AddQuestions";
+import QuestionsList from "./components/AdminComponents/QuestionsList";
+
+import "./App.css";
 
 function App() {
-  const [movie, setMovie] = useState("");
-  const [director, setDirector] = useState("");
-  const [pairs, setPairs] = useState([]);
+  const [movies, setMovies] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Fetch movies on mount
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/movies/")
+      .then((res) => setMovies(res.data))
+      .catch((err) => console.error("Error fetching movies:", err));
+  }, []);
 
-    if (!movie || !director) return;
-
-    setPairs([...pairs, { movie, director }]);
-    setMovie("");
-    setDirector("");
+  // Add new movie
+  const addMovie = async (movie, director) => {
+    try {
+      const res = await axios.post("http://localhost:8000/movies/", {
+        name: movie,
+        director: director,
+      });
+      setMovies([...movies, res.data]);
+    } catch (err) {
+      console.error("Error adding movie:", err);
+    }
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
-      <h1>🎬 Movie / Director Pairs</h1>
+    <div className="app-layout">
+      <main className="main-content">
+        <h1 className="section-title">❓ Trivia Admin</h1>
+        <div className="form-wrapper">
+          <AddQuestions />
+        </div>
+        <div className="question-list-wrapper">
+          <QuestionsList />
+        </div>
+      </main>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: "1rem" }}>
-        <input
-          type="text"
-          placeholder="Movie name"
-          value={movie}
-          onChange={(e) => setMovie(e.target.value)}
-          style={{ marginRight: "0.5rem", padding: "0.5rem" }}
+      <section className="movies-section">
+        <h1 className="section-title">🎬 Movies</h1>
+        <div className="form-wrapper">
+          <MovieForm onAddPair={addMovie} />
+        </div>
+        <MovieList
+          pairs={movies.map((m) => ({ movie: m.name, director: m.director }))}
         />
-        <input
-          type="text"
-          placeholder="Director name"
-          value={director}
-          onChange={(e) => setDirector(e.target.value)}
-          style={{ marginRight: "0.5rem", padding: "0.5rem" }}
-        />
-        <button type="submit" style={{ padding: "0.5rem 1rem" }}>
-          Add
-        </button>
-      </form>
-
-      <ul>
-        {pairs.map((pair, index) => (
-          <li key={index}>
-            <strong>{pair.movie}</strong> — {pair.director}
-          </li>
-        ))}
-      </ul>
+      </section>
     </div>
   );
 }

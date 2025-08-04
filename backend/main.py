@@ -1,33 +1,39 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from . import models, database, schemas
+import models, schemas, crud, database, seed
+
+from fastapi.middleware.cors import CORSMiddleware
+
+models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
+# Add this middleware configuration BEFORE your routes
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],  # or list specific methods
+    allow_headers=["*"],  # or list specific headers
+)
+
 @app.on_event("startup")
-def on_startup():
-    models.Base.metadata.create_all(bind=database.engine)
-
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-@app.get("/")
-def read_root():
-    return {"message": "Backend is running"}
-
-# Use the schema for input and output
-@app.post("/movies/", response_model=schemas.Movie)
-def create_movie(movie: schemas.MovieCreate, db: Session = Depends(get_db)):
-    db_movie = models.Movie(name=movie.name, director=movie.director)
-    db.add(db_movie)
-    db.commit()
-    db.refresh(db_movie)
-    return db_movie
+def startup_event():
+    db = next(database.get_db())
+    seed.seed_data(db)
 
 @app.get("/movies/", response_model=list[schemas.Movie])
-def list_movies(db: Session = Depends(get_db)):
-    return db.query(models.Movie).all()
+def read_movies(db: Session = Depends(database.get_db)):
+    return crud.get_movies(db)
+
+@app.post("/movies/", response_model=schemas.Movie)
+def create_movie(movie: schemas.MovieCreate, db: Session = Depends(database.get_db)):
+    return crud.create_movie(db, movie)
+
+@app.get("/questions/", response_model=list[schemas.Question])
+def read_questions(db: Session = Depends(database.get_db)):
+    return crud.get_questions(db)
+
+@app.post("/questions/", response_model=schemas.Question)
+def create_question(question: schemas.QuestionCreate, db: Session = Depends(database.get_db)):
+    return crud.create_question(db, question)

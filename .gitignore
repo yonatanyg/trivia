@@ -12,3 +12,5 @@ dist/
 *.pyd
 *.db
 *.log
+
+node_modules/

@@ -3,34 +3,29 @@ version: "3.9"
 services:
   db:
     image: postgres:15
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: moviesdb
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: trivia_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
   backend:
     build: ./backend
     volumes:
       - ./backend:/app
-    ports:
-      - "8000:8000"
+    working_dir: /app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/moviesdb
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/trivia_db
     depends_on:
       - db
-
-  frontend:
-    build: ./frontend
     ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/app
-    depends_on:
-      - backend
+      - "8000:8000"
+
 
 volumes:
   postgres_data:
