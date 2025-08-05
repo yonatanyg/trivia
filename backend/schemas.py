@@ -28,7 +28,6 @@ class Answer(AnswerBase):
     class Config:
         orm_mode = True
 
-
 class QuestionBase(BaseModel):
     question: str
 
@@ -38,6 +37,36 @@ class QuestionCreate(QuestionBase):
 class Question(QuestionBase):
     id: int
     answers: List[Answer] = []
+
+    class Config:
+        orm_mode = True
+
+
+# Room schemas
+
+class ParticipantBase(BaseModel):
+    name: str
+
+class ParticipantCreate(ParticipantBase):
+    pass
+
+class Participant(ParticipantBase):
+    id: int
+    room_id: int
+
+    class Config:
+        orm_mode = True
+
+class RoomBase(BaseModel):
+    code: str
+    state: Optional[str] = "waiting"
+
+class RoomCreate(BaseModel):
+    code: str
+
+class Room(RoomBase):
+    id: int
+    participants: List[Participant] = []
 
     class Config:
         orm_mode = True

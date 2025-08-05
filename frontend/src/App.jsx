@@ -1,18 +1,35 @@
 import { useNavigate } from "react-router-dom";
+import { api } from "./api"; 
 import "./App.css";
 
 export default function App() {
   const navigate = useNavigate();
 
-  const handleCreateRoom = () => {
-    const fakeRoomId = Math.random().toString(36).substring(2, 8).toUpperCase();
-    navigate(`/room/${fakeRoomId}`);
+    // Create room via backend
+  const handleCreateRoom = async () => {
+    try {
+      const res = await api.post("/rooms/"); // call FastAPI
+      const room = res.data;
+      navigate(`/room/${room.code}`); // use the real code from backend
+    } catch (err) {
+      console.error("Failed to create room:", err);
+    }
   };
-
-  const handleJoinRoom = () => {
+    // Join room via backend
+  const handleJoinRoom = async () => {
     const code = prompt("Enter room code:");
-    if (code) {
-      navigate(`/room/${code.toUpperCase()}`);
+    if (!code) return;
+
+    try {
+      const res = await api.get(`/rooms/${code.toUpperCase()}`);
+      if (res.data) {
+        navigate(`/room/${code.toUpperCase()}`);
+      } else {
+        alert("Room not found");
+      }
+    } catch (err) {
+      alert("Room not found");
+      console.error(err);
     }
   };
 
