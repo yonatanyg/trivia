@@ -3,6 +3,8 @@ import logging
 from sqlalchemy.orm import Session
 import models, schemas, crud, database, seed
 
+import os
+
 from fastapi.middleware.cors import CORSMiddleware
 from room_manager import room_manager
 # Create tables if not exist
@@ -13,10 +15,12 @@ app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# CORS middleware
+# Allowed origins: local + optional env var
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # frontend origin
+    allow_origins=[FRONTEND_URL],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -134,3 +138,9 @@ def remove_participant(participant_id: int):
                 room_manager.delete_room(room.code)
             return {"detail": f"Participant {participant_id} removed"}
     raise HTTPException(status_code=404, detail="Participant not found")
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
