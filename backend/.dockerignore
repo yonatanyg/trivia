@@ -1,0 +1,29 @@
+# Python cache and temp files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.sqlite3
+
+# Environment files
+.env
+
+# Git files
+.git
+.gitignore
+
+# Docker files (if any, to avoid recursive copy)
+Dockerfile
+docker-compose.yml
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Tests and docs (optional)
+tests/
+docs/
