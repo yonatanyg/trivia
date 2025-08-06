@@ -15,15 +15,14 @@ app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Allowed origins: local + optional env var
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URLS = os.getenv("FRONTEND_URLS", "http://localhost:5173,http://localhost:5174")
+
+allow_origins = [origin.strip() for origin in FRONTEND_URLS.split(",")]
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",     # local frontend (adjust port if needed)
-        "https://your-frontend-domain.com"  # your deployed frontend URL
-    ],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
