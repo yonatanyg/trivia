@@ -1,6 +1,6 @@
 // QuestionsList.jsx
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { api } from "../../api"; // <-- import api instead of axios
 
 export default function QuestionsList() {
   const [questions, setQuestions] = useState([]);
@@ -12,7 +12,7 @@ export default function QuestionsList() {
 
   const fetchQuestions = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/questions/");
+      const res = await api.get("/questions/"); // <-- use api here
       setQuestions(res.data);
     } catch (error) {
       console.error("Error fetching questions:", error);

@@ -1,6 +1,6 @@
 // AddQuestions.jsx
 import { useState } from "react";
-import axios from "axios";
+import { api } from "../../api"; // <-- import api instead of axios
 
 import "./AddQuestions.css";
 
@@ -48,7 +48,7 @@ export default function AddQuestions() {
     };
 
     try {
-      await axios.post("http://localhost:8000/questions/", payload);
+      await api.post("/questions/", payload); // <-- use api here
       alert("Question added successfully!");
       setQuestion("");
       setAnswers([{ answer: "", is_correct: false }]);
