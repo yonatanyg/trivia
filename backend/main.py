@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, WebSocket, WebSocketDisconnect
 import logging
 from sqlalchemy.orm import Session
 import models, schemas, crud, database, seed
@@ -114,12 +114,20 @@ def delete_room(code: str):
 # -------- Participants Endpoints --------
 
 @app.post("/rooms/{code}/participants")
-def add_participant(code: str, participant: dict):
+async def add_participant(code: str, participant: dict):
     room = room_manager.get_room(code)
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
     participant_id = max(room.participants.keys(), default=0) + 1
     room.add_participant(participant_id, participant.get("name", "Anonymous"))
+
+    # Broadcast update
+    await room.broadcast({
+        "event": "participant_joined",
+        "id": participant_id,
+        "name": participant.get("name", "Anonymous")
+    })
+
     return {"id": participant_id, "name": participant.get("name", "Anonymous")}
 
 @app.get("/rooms/{code}/participants")
@@ -131,16 +139,64 @@ def list_participants(code: str):
 
 @app.delete("/participants/{participant_id}")
 def remove_participant(participant_id: int):
-    # find participant in all rooms and remove
+    # This endpoint is now optional, as cleanup is handled by WebSocket
     for room in room_manager.rooms.values():
         if participant_id in room.participants:
             room.remove_participant(participant_id)
-            # optionally delete room if empty
             if room.is_empty():
                 room_manager.delete_room(room.code)
             return {"detail": f"Participant {participant_id} removed"}
     raise HTTPException(status_code=404, detail="Participant not found")
 
+
+### -- web sockets -- ###
+
+@app.websocket("/ws/rooms/{code}")
+async def websocket_endpoint(websocket: WebSocket, code: str, participant_id: int):
+    room = room_manager.get_room(code)
+    if not room:
+        await websocket.close(code=1000, reason="Room not found")
+        return
+
+    # Use the new connect method that links the participant ID to the WebSocket
+    await room.connect(participant_id, websocket)
+
+    try:
+        while True:
+            data = await websocket.receive_json()
+            # You can handle incoming messages here
+            await room.broadcast(data)
+    except WebSocketDisconnect:
+        logger.info(f"WebSocket disconnected for participant {participant_id} in room {code}")
+        
+        # Remove the participant and their WebSocket connection
+        room.remove_participant(participant_id)
+        room.disconnect(participant_id)
+
+        # Broadcast the 'participant_left' event to remaining clients
+        await room.broadcast({
+            "event": "participant_left",
+            "id": participant_id
+        })
+
+        # Optionally, delete the room if it becomes empty
+        if room.is_empty():
+            room_manager.delete_room(code)
+
+    except Exception as e:
+        logger.error(f"An error occurred in WebSocket for room {code}: {e}")
+        # Ensure cleanup even on other errors
+        room.remove_participant(participant_id)
+        room.disconnect(participant_id)
+
+        # Broadcast 'participant_left' for error-based disconnections as well
+        await room.broadcast({
+            "event": "participant_left",
+            "id": participant_id
+        })
+        
+        if room.is_empty():
+            room_manager.delete_room(code)
 
 if __name__ == "__main__":
     import uvicorn
