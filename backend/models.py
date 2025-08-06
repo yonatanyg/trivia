@@ -28,7 +28,7 @@ class Answer(Base):
 
     question = relationship("Question", back_populates="answers")
 
-
+"""
 # New Room model
 class Room(Base):
     __tablename__ = "rooms"
@@ -48,3 +48,4 @@ class Participant(Base):
     room_id = Column(Integer, ForeignKey("rooms.id", ondelete="CASCADE"), nullable=False)
 
     room = relationship("Room", back_populates="participants")
+"""

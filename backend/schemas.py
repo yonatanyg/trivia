@@ -42,6 +42,7 @@ class Question(QuestionBase):
         orm_mode = True
 
 
+"""
 # Room schemas
 
 class ParticipantBase(BaseModel):
@@ -70,3 +71,4 @@ class Room(RoomBase):
 
     class Config:
         orm_mode = True
+"""

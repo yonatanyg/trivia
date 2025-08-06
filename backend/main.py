@@ -1,13 +1,17 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
+import logging
 from sqlalchemy.orm import Session
 import models, schemas, crud, database, seed
 
 from fastapi.middleware.cors import CORSMiddleware
-
+from room_manager import room_manager
 # Create tables if not exist
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # CORS middleware
 app.add_middleware(
@@ -46,45 +50,87 @@ def read_questions(db: Session = Depends(database.get_db)):
 def create_question(question: schemas.QuestionCreate, db: Session = Depends(database.get_db)):
     return crud.create_question(db, question)
 
-# -----------------------------
-# Rooms Endpoints
-# -----------------------------
-@app.post("/rooms/", response_model=schemas.Room)
-def create_room(room: schemas.RoomCreate = None, db: Session = Depends(database.get_db)):
-    return crud.create_room(db, room)
+# -------- Rooms Endpoints (no DB, use room_manager) --------
 
-@app.get("/rooms/", response_model=list[schemas.Room])
-def list_rooms(db: Session = Depends(database.get_db)):
-    return crud.get_rooms(db)
+@app.post("/rooms/")
+def create_room():
+    logger.info("Test")
+    room = room_manager.create_room()
+    return {
+        "code": room.code,
+        "state": room.state,
+        "participants": list(room.participants.values())
+    }
 
-@app.get("/rooms/{code}", response_model=schemas.Room)
-def get_room(code: str, db: Session = Depends(database.get_db)):
-    db_room = crud.get_room_by_code(db, code)
-    if not db_room:
-        return {"error": "Room not found"}
-    return db_room
+@app.get("/rooms/")
+def list_rooms():
+    return [
+        {
+            "code": room.code,
+            "state": room.state,
+            "participants": list(room.participants.values())
+        }
+        for room in room_manager.rooms.values()
+    ]
 
-@app.put("/rooms/{code}/state", response_model=schemas.Room)
-def update_room_state(code: str, state: str, db: Session = Depends(database.get_db)):
-    return crud.update_room_state(db, code, state)
+@app.get("/rooms/{code}")
+def get_room(code: str):
+    room = room_manager.get_room(code)
+    if not room:
+        raise HTTPException(status_code=404, detail="Room not found")
+    return {
+        "code": room.code,
+        "state": room.state,
+        "participants": list(room.participants.values())
+    }
 
-@app.delete("/rooms/{code}", response_model=schemas.Room)
-def delete_room(code: str, db: Session = Depends(database.get_db)):
-    return crud.delete_room(db, code)
+@app.put("/rooms/{code}/state")
+def update_room_state(code: str, state: str):
+    room = room_manager.get_room(code)
+    if not room:
+        raise HTTPException(status_code=404, detail="Room not found")
+    room.state = state
+    return {
+        "code": room.code,
+        "state": room.state,
+        "participants": list(room.participants.values())
+    }
+
+@app.delete("/rooms/{code}")
+def delete_room(code: str):
+    room = room_manager.get_room(code)
+    if not room:
+        raise HTTPException(status_code=404, detail="Room not found")
+    room_manager.delete_room(code)
+    return {"detail": f"Room {code} deleted"}
 
 
-# -----------------------------
-# Participants Endpoints
-# -----------------------------
-@app.post("/rooms/{code}/participants", response_model=schemas.Participant)
-def add_participant(code: str, participant: schemas.ParticipantCreate, db: Session = Depends(database.get_db)):
-    return crud.add_participant(db, code, participant)
+# -------- Participants Endpoints --------
 
-@app.get("/rooms/{code}/participants", response_model=list[schemas.Participant])
-def list_participants(code: str, db: Session = Depends(database.get_db)):
-    return crud.get_participants(db, code)
+@app.post("/rooms/{code}/participants")
+def add_participant(code: str, participant: dict):
+    room = room_manager.get_room(code)
+    if not room:
+        raise HTTPException(status_code=404, detail="Room not found")
+    participant_id = max(room.participants.keys(), default=0) + 1
+    room.add_participant(participant_id, participant.get("name", "Anonymous"))
+    return {"id": participant_id, "name": participant.get("name", "Anonymous")}
 
-@app.delete("/participants/{participant_id}", response_model=schemas.Participant)
-def remove_participant(participant_id: int, db: Session = Depends(database.get_db)):
-    return crud.remove_participant(db, participant_id)
+@app.get("/rooms/{code}/participants")
+def list_participants(code: str):
+    room = room_manager.get_room(code)
+    if not room:
+        raise HTTPException(status_code=404, detail="Room not found")
+    return [{"id": pid, **info} for pid, info in room.participants.items()]
 
+@app.delete("/participants/{participant_id}")
+def remove_participant(participant_id: int):
+    # find participant in all rooms and remove
+    for room in room_manager.rooms.values():
+        if participant_id in room.participants:
+            room.remove_participant(participant_id)
+            # optionally delete room if empty
+            if room.is_empty():
+                room_manager.delete_room(room.code)
+            return {"detail": f"Participant {participant_id} removed"}
+    raise HTTPException(status_code=404, detail="Participant not found")
