@@ -1,0 +1,138 @@
+.room-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f7f9fc; /* very light */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    color: #222; /* overall text color darker */
+  }
+  
+  .room-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #111; /* darker for titles */
+  }
+  
+  .room-status {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #333; /* a bit darker */
+  }
+  
+  .room-status span {
+    font-weight: bold;
+    color: #111;
+  }
+  
+  .room-info {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: #333; /* increased contrast */
+  }
+  
+  .room-code {
+    font-family: monospace;
+    font-size: 1.1rem;
+    background-color: #d1d5db; /* darker grey than before */
+    padding: 4px 8px;
+    border-radius: 6px;
+    color: #111; /* dark text on lighter bg */
+  }
+  
+  .participant-name {
+    font-weight: 600;
+    color: #222;
+  }
+  
+  .participants-section {
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+  
+  .participants-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #222; /* darker for heading */
+  }
+  
+  .participants-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .participant-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    color: #222;
+  }
+  
+  .participant-item.self {
+    background-color: #e6f7ff;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+  }
+  
+  .name {
+    flex-grow: 1;
+    font-weight: 500;
+    color: #222;
+  }
+  
+  .checkmark {
+    color: #28a745; /* nicer green */
+    font-size: 1.2rem;
+  }
+  
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    color: white;
+  }
+  
+  .btn-green {
+    background-color: #4caf50;
+  }
+  
+  .btn-red {
+    background-color: #f44336;
+  }
+  
+  .btn-blue {
+    background-color: #2196f3;
+  }
+  
+  .btn-gray {
+    background-color: #6c757d;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+  

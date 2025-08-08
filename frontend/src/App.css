@@ -5,4 +5,30 @@ html, body, #root {
   align-items: center;     /* centers vertically */
 }
 
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 40px;
+}
+
+.title {
+  font-size: 2.5em;
+  color: #333;
+}
+
+.room-boxes {
+  display: flex;
+  gap: 40px;
+}
+
+.btn.admin {
+  background-color: #555;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
 

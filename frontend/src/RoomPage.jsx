@@ -1,96 +1,74 @@
-import { useEffect, useState } from "react";
-import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
-import { api } from "./api";
+// RoomPage.jsx
+import { RoomProvider, useRoom } from "./RoomContext.jsx";
+import RoomStuff from "./components/RoomComponents/RoomStuff";
+import GamePanel from "./components/RoomComponents/GamePanel";
+import GameOverPanel from "./components/RoomComponents/GameOverPanel";
 
-export default function RoomPage() {
-  const { roomId } = useParams();
-  const location = useLocation();
-  const navigate = useNavigate();
+import "./RoomPage.css";
 
-  const [participants, setParticipants] = useState([]);
-  const participant = location.state?.participant;
+export default function RoomPageWrapper() {
+  return (
+    <RoomProvider>
+      <RoomPage />
+    </RoomProvider>
+  );
+}
 
-  useEffect(() => {
-    if (!participant) {
-      navigate("/");
-      return;
-    }
-
-    // Connect to WebSocket using the new deployed URL
-    const ws = new WebSocket(
-      `wss://trivia-0dqx.onrender.com/ws/rooms/${roomId}?participant_id=${participant.id}`
-    );
-
-    ws.onopen = () => {
-      console.log("WebSocket connection established");
-    };
-
-    ws.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      console.log("Received message:", message);
-
-      if (message.event === "participant_joined") {
-        setParticipants((prevParticipants) => [
-          ...prevParticipants,
-          { id: message.id, name: message.name },
-        ]);
-      } else if (message.event === "participant_left") {
-        setParticipants((prevParticipants) =>
-          prevParticipants.filter((p) => p.id !== message.id)
-        );
-      }
-    };
-
-    ws.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
-
-    ws.onerror = (err) => {
-      console.error("WebSocket error:", err);
-    };
-
-    const fetchParticipants = async () => {
-      try {
-        const response = await api.get(`/rooms/${roomId}/participants`);
-        setParticipants(response.data);
-      } catch (err) {
-        console.error("Failed to fetch participants:", err);
-      }
-    };
-    fetchParticipants();
-
-    return () => {
-      ws.close();
-    };
-  }, [participant, navigate, roomId]);
+function RoomPage() {
+  const {
+    participant,
+    inGame,
+    participants,
+    ready,
+    toggleReady,
+    startGame,
+    currentQuestion,
+    questionTimer,
+    selectedAnswerId,
+    setSelectedAnswerId,
+    sendAnswer,
+    exitGame,
+    correctAnswerId,
+    scores,
+    gameOver,
+    roomStatus,
+    roomId,
+  } = useRoom();
 
   if (!participant) return null;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-6">
-      <h2 className="text-2xl font-semibold">Room</h2>
-      <p className="text-lg">
-        Room Code: <span className="font-mono">{roomId}</span>
-      </p>
-      <p className="text-lg">
-        Nickname: <span className="font-semibold">{participant.name}</span>
-      </p>
-
-      <div className="mt-4">
-        <h3 className="text-xl font-medium">Participants:</h3>
-        <ul className="list-disc list-inside">
-          {participants.map((p) => (
-            <li key={p.id}>{p.name}</li>
-          ))}
-        </ul>
-      </div>
-
-      <Link
-        to="/"
-        className="px-4 py-2 bg-gray-500 text-white rounded-lg shadow hover:bg-gray-600"
-      >
-        Back to Main
-      </Link>
+    <div className="container">
+      {!inGame ? (
+        <RoomStuff
+          roomId={roomId}
+          participant={participant}
+          participants={participants}
+          ready={ready}
+          toggleReady={toggleReady}
+          startGame={startGame}
+          roomStatus={roomStatus}
+        />
+      ) : gameOver ? (
+        <GameOverPanel
+          scores={scores}
+          participants={participants}
+          onExit={exitGame}
+        />
+      ) : (
+        <GamePanel
+          onExit={exitGame}
+          question={currentQuestion}
+          timer={questionTimer}
+          selectedAnswerId={selectedAnswerId}
+          setSelectedAnswerId={setSelectedAnswerId}
+          sendAnswer={sendAnswer}
+          correctAnswerId={correctAnswerId}
+          scores={scores}
+          participant={participant}
+          participants={participants}
+        />
+      )}
     </div>
   );
 }

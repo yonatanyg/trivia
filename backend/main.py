@@ -2,11 +2,14 @@ from fastapi import FastAPI, Depends, HTTPException, WebSocket, WebSocketDisconn
 import logging
 from sqlalchemy.orm import Session
 import models, schemas, crud, database, seed
-
+import asyncio
 import os
 
 from fastapi.middleware.cors import CORSMiddleware
+
 from room_manager import room_manager
+import game_manager 
+
 # Create tables if not exist
 models.Base.metadata.create_all(bind=database.engine)
 
@@ -111,6 +114,7 @@ def delete_room(code: str):
     return {"detail": f"Room {code} deleted"}
 
 
+
 # -------- Participants Endpoints --------
 
 @app.post("/rooms/{code}/participants")
@@ -119,16 +123,20 @@ async def add_participant(code: str, participant: dict):
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
     participant_id = max(room.participants.keys(), default=0) + 1
-    room.add_participant(participant_id, participant.get("name", "Anonymous"))
+    name = participant.get("name", "Anonymous")
+    avatar = participant.get("avatar", "/avatars/avatar1.png")  # Default fallback
+
+    room.add_participant(participant_id, name,avatar)
 
     # Broadcast update
     await room.broadcast({
         "event": "participant_joined",
         "id": participant_id,
-        "name": participant.get("name", "Anonymous")
+        "name": name,
+        "avatar": avatar,
     })
 
-    return {"id": participant_id, "name": participant.get("name", "Anonymous")}
+    return {"id": participant_id, "name": name, "avatar": avatar}
 
 @app.get("/rooms/{code}/participants")
 def list_participants(code: str):
@@ -158,45 +166,54 @@ async def websocket_endpoint(websocket: WebSocket, code: str, participant_id: in
         await websocket.close(code=1000, reason="Room not found")
         return
 
-    # Use the new connect method that links the participant ID to the WebSocket
     await room.connect(participant_id, websocket)
 
     try:
         while True:
             data = await websocket.receive_json()
-            # You can handle incoming messages here
-            await room.broadcast(data)
-    except WebSocketDisconnect:
-        logger.info(f"WebSocket disconnected for participant {participant_id} in room {code}")
-        
-        # Remove the participant and their WebSocket connection
-        room.remove_participant(participant_id)
-        room.disconnect(participant_id)
+            event = data.get("event")
 
-        # Broadcast the 'participant_left' event to remaining clients
-        await room.broadcast({
-            "event": "participant_left",
-            "id": participant_id
-        })
+            if event == "set_ready":
+                ready = bool(data.get("ready", False))
+                room.set_ready(participant_id, ready)
 
-        # Optionally, delete the room if it becomes empty
-        if room.is_empty():
-            room_manager.delete_room(code)
+                await room.broadcast({
+                    "event": "participant_ready",
+                    "id": participant_id,
+                    "ready": ready
+                })
+
+                if room_manager.is_room_ready_to_start(code):
+                    await room.broadcast({
+                        "event": "room_ready",
+                        "room": code
+                    })
+
+            elif event == "start_game":
+                if room_manager.is_room_ready_to_start(code):
+                    if room.state == "waiting":
+                        game = game_manager.GameManager(room, next(database.get_db()))
+
+                        await room.broadcast({
+                            "event": "start_game",
+                            "message": "The game is starting!",
+                            "time": game.timeout_seconds
+                        })
+                        room.start_game(game)
+
+                        # Run the game in the background, don't await here
+                        asyncio.create_task(game.run_game())
+
+            elif event == "player_answered":
+                room.game_manager.receive_answer(participant_id, data.get("answer"))
+
+            else:
+                await room.broadcast(data)
 
     except Exception as e:
-        logger.error(f"An error occurred in WebSocket for room {code}: {e}")
-        # Ensure cleanup even on other errors
-        room.remove_participant(participant_id)
+        logger.error(f"WebSocket error: {e}")
+    finally:
         room.disconnect(participant_id)
-
-        # Broadcast 'participant_left' for error-based disconnections as well
-        await room.broadcast({
-            "event": "participant_left",
-            "id": participant_id
-        })
-        
-        if room.is_empty():
-            room_manager.delete_room(code)
 
 if __name__ == "__main__":
     import uvicorn

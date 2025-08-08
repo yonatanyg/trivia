@@ -27,6 +27,7 @@ class Answer(AnswerBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 class QuestionBase(BaseModel):
     question: str
@@ -40,35 +41,4 @@ class Question(QuestionBase):
 
     class Config:
         orm_mode = True
-
-
-"""
-# Room schemas
-
-class ParticipantBase(BaseModel):
-    name: str
-
-class ParticipantCreate(ParticipantBase):
-    pass
-
-class Participant(ParticipantBase):
-    id: int
-    room_id: int
-
-    class Config:
-        orm_mode = True
-
-class RoomBase(BaseModel):
-    code: str
-    state: Optional[str] = "waiting"
-
-class RoomCreate(BaseModel):
-    code: str
-
-class Room(RoomBase):
-    id: int
-    participants: List[Participant] = []
-
-    class Config:
-        orm_mode = True
-"""
+        from_attributes = True

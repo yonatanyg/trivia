@@ -1,7 +1,8 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session,joinedload
 import models, schemas
 import random, string
 
+from sqlalchemy.sql.expression import func
 
 # ------------------ Movies ------------------ #
 def get_movies(db: Session):
@@ -38,3 +39,11 @@ def create_question(db: Session, question: schemas.QuestionCreate):
     db.refresh(db_question)
     return db_question
 
+def get_random_question_with_answers(db: Session):
+    question = (
+        db.query(models.Question)
+        .options(joinedload(models.Question.answers))  # eager load answers
+        .order_by(func.random())  # random order
+        .first()
+    )
+    return question

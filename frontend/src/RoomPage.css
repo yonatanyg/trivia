@@ -1,0 +1,93 @@
+/* RoomPage.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .text-lg {
+    font-size: 1.125rem;
+  }
+  
+  .font-mono {
+    font-family: monospace;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  .participants-list {
+    list-style-type: disc;
+    padding-left: 1.25rem;
+  }
+  
+  .participant-item {
+    margin-bottom: 0.25rem;
+  }
+  
+  .participant-item-self {
+    font-weight: 700;
+    text-decoration: underline;
+  }
+  
+  .button-base {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .green-button {
+    background-color: #22c55e; /* green-500 */
+  }
+  
+  .green-button:hover {
+    background-color: #16a34a; /* green-600 */
+  }
+  
+  .red-button {
+    background-color: #ef4444; /* red-500 */
+  }
+  
+  .red-button:hover {
+    background-color: #b91c1c; /* red-600 */
+  }
+  
+  .blue-button {
+    background-color: #3b82f6; /* blue-500 */
+  }
+  
+  .blue-button:hover {
+    background-color: #2563eb; /* blue-600 */
+  }
+  
+  .gray-button {
+    background-color: #6b7280; /* gray-500 */
+  }
+  
+  .gray-button:hover {
+    background-color: #4b5563; /* gray-600 */
+  }
+  
+  .margin-top-4 {
+    margin-top: 1rem;
+  }
+  
+  .margin-bottom-4 {
+    margin-bottom: 1rem;
+  }
+  

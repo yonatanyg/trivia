@@ -1,0 +1,87 @@
+.room-box {
+    border: 2px solid #888; /* darker border for contrast */
+    border-radius: 16px;
+    padding: 20px;
+    width: 300px;
+    background-color: #fff; /* pure white for clarity */
+    text-align: center;
+    color: #222; /* darker text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .room-box h2 {
+    margin-bottom: 15px;
+    color: #111; /* strong heading color */
+  }
+  
+  .room-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 16px;
+    border-radius: 8px;
+    border: 1.5px solid #555; /* darker border for inputs */
+    font-size: 1rem;
+    color: #222;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease;
+  }
+  
+  .room-box input:focus {
+    border-color: #007bff; /* highlight on focus */
+    outline: none;
+    background-color: #fff;
+  }
+  
+  .avatar-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .avatar-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    transition: border-color 0.2s ease;
+  }
+  
+  .avatar-img:hover {
+    border-color: #007bff; /* highlight on hover */
+    cursor: pointer;
+  }
+  
+  .avatar-picker button {
+    font-size: 18px;
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .avatar-picker button:hover {
+    background-color: #0056b3;
+  }
+  
+  .submit-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+  
