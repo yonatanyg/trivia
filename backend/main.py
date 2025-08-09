@@ -18,7 +18,7 @@ app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-FRONTEND_URLS = os.getenv("FRONTEND_URLS", "http://localhost:5173,http://localhost:5174")
+FRONTEND_URLS = os.getenv("FRONTEND_URLS", "http://localhost:5173,http://localhost:5174,https://trivia-frontend-cnxf.onrender.com")
 
 allow_origins = [origin.strip() for origin in FRONTEND_URLS.split(",")]
 

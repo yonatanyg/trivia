@@ -1,30 +1,22 @@
 import json
-from database import get_db
 from models import Question, Answer
 
-def populate_db(json_path="questions.json"):
-    db = next(get_db())
+def populate_db(db, json_path="questions.json"):
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-    try:
-        with open(json_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+    questions_data = data["questions"]
 
-        questions_data = data["questions"]  # <-- Access the list here
+    for q_data in questions_data:
+        exists = db.query(Question).filter(Question.question == q_data["question"]).first()
+        if exists:
+            continue
 
-        for q_data in questions_data:
-            question = Question(question=q_data["question"])
-            for a_data in q_data["answers"]:
-                answer = Answer(answer=a_data["answer"], is_correct=a_data["is_correct"])
-                question.answers.append(answer)
-            db.add(question)
+        question = Question(question=q_data["question"])
+        for a_data in q_data["answers"]:
+            answer = Answer(answer=a_data["answer"], is_correct=a_data["is_correct"])
+            question.answers.append(answer)
 
-        db.commit()
-        print(f"✅ Inserted {len(questions_data)} questions into the database!")
-    except Exception as e:
-        db.rollback()
-        print("❌ Error inserting data:", e)
-    finally:
-        db.close()
+        db.add(question)
 
-if __name__ == "__main__":
-    populate_db()
+    db.commit()
