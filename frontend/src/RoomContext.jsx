@@ -3,7 +3,6 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { api } from "./api";
 
 const RoomContext = createContext();
-
 export const useRoom = () => useContext(RoomContext);
 
 const WS_URL = import.meta.env.VITE_WEBSOCKET_URL;
@@ -19,14 +18,16 @@ export function RoomProvider({ children }) {
 
   const [participants, setParticipants] = useState([]);
   const [ready, setReady] = useState(false);
-  const [inGame, setInGame] = useState(false);
   const [selectedAnswerId, setSelectedAnswerId] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [questionTimer, setQuestionTimer] = useState(null);
   const [correctAnswerId, setCorrectAnswerId] = useState(null);
-  const [scores, setScores] = useState({}); // <-- new scores state
+  const [scores, setScores] = useState({});
   const [gameOver, setGameOver] = useState(false);
   const [roomStatus, setRoomStatus] = useState("waiting");
+
+  // Derived state: inGame will always match roomStatus
+  const inGame = roomStatus === "in_game";
 
   useEffect(() => {
     if (!participant) {
@@ -70,13 +71,20 @@ export function RoomProvider({ children }) {
           break;
 
         case "start_game":
-          setInGame(true);
-          setRoomStatus("in_game");
-          /*setReady(false);
-          socketRef.current?.send(
-            JSON.stringify({ event: "set_ready", ready: false })
-          );*/
-          break;
+  setRoomStatus("in_game");
+
+  // Force all players to unready
+  setReady(false);
+  setParticipants((prev) =>
+    prev.map((p) => ({ ...p, ready: false }))
+  );
+
+  // Notify server that this client is unready
+  socketRef.current?.send(
+    JSON.stringify({ event: "set_ready", ready: false })
+  );
+  break;
+
 
         case "new_question":
           setCurrentQuestion(message.question);
@@ -97,12 +105,12 @@ export function RoomProvider({ children }) {
 
         case "round_results":
           setCorrectAnswerId(message.correctAnswerId);
-          setScores(message.scores || {}); // <-- update scores here
+          setScores(message.scores || {});
           console.log("Correct Answer IDs:", message.correctAnswerId);
           console.log("Scores:", message.scores);
           break;
+
         case "game_over":
-          //present winner
           setGameOver(true);
           setRoomStatus("waiting");
           break;
@@ -120,7 +128,6 @@ export function RoomProvider({ children }) {
         console.error("Failed to fetch participants:", err);
       }
     };
-    fetchParticipants();
 
     const fetchRoomStatus = async () => {
       try {
@@ -128,8 +135,13 @@ export function RoomProvider({ children }) {
         setRoomStatus(res.data.state);
       } catch (err) {
         console.error("Failed to fetch room status:", err);
+        if (err.response && err.response.status === 404) {
+        navigate("/"); // room not found → go home
+      }
       }
     };
+
+    fetchParticipants();
     fetchRoomStatus();
 
     return () => {
@@ -157,7 +169,6 @@ export function RoomProvider({ children }) {
   };
 
   const exitGame = () => {
-    setInGame(false);
     setGameOver(false);
     setCurrentQuestion(null);
     setQuestionTimer(null);
@@ -166,7 +177,7 @@ export function RoomProvider({ children }) {
     setScores({});
     if (timerRef.current) clearInterval(timerRef.current);
     setReady(false);
-    toggleReady();
+    //toggleReady();
   };
 
   return (
@@ -177,7 +188,7 @@ export function RoomProvider({ children }) {
         participants,
         ready,
         toggleReady,
-        inGame,
+        inGame, // derived from roomStatus
         startGame,
         currentQuestion,
         questionTimer,
@@ -186,7 +197,7 @@ export function RoomProvider({ children }) {
         sendAnswer,
         exitGame,
         correctAnswerId,
-        scores, // <-- provide scores here
+        scores,
         gameOver,
         roomStatus,
       }}

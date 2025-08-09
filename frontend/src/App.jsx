@@ -8,6 +8,7 @@ export default function App() {
   const navigate = useNavigate();
 
   const handleCreate = async ({ nickname, avatar }) => {
+    console.log("WehWeh");
     try {
       const resRoom = await api.post("/rooms/");
       const room = resRoom.data;

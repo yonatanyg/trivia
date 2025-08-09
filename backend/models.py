@@ -28,24 +28,3 @@ class Answer(Base):
 
     question = relationship("Question", back_populates="answers")
 
-"""
-# New Room model
-class Room(Base):
-    __tablename__ = "rooms"
-
-    id = Column(Integer, primary_key=True, index=True)
-    code = Column(String(6), unique=True, index=True, nullable=False)
-    state = Column(String, default="waiting", nullable=False)  # waiting, started, finished
-
-    participants = relationship("Participant", back_populates="room", cascade="all, delete-orphan")
-
-# New Participant model
-class Participant(Base):
-    __tablename__ = "participants"
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    room_id = Column(Integer, ForeignKey("rooms.id", ondelete="CASCADE"), nullable=False)
-
-    room = relationship("Room", back_populates="participants")
-"""

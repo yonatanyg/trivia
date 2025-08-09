@@ -20,13 +20,19 @@ export default function GamePanel({
     sendAnswer(answerId);
   };
 
+  const decodeHTML = (htmlString) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = htmlString;
+    return txt.value;
+  };
+
   const currentScore = scores?.[participant?.id] ?? 0;
 
   return (
     <div className="game-panel">
-      <button className="exit-button" onClick={onExit}>
+      {/* <button className="exit-button" onClick={onExit}>
         Exit
-      </button>
+      </button> */}
 
       <ParticipantList
         participants={participants}
@@ -36,7 +42,7 @@ export default function GamePanel({
 
       {question ? (
         <div className="question-block">
-          <h2>{question.question}</h2>
+          <h2>{decodeHTML(question.question)}</h2>
           <div className="answers">
             {question.answers.map((answer) => {
               const isCorrect =
@@ -49,7 +55,7 @@ export default function GamePanel({
                   disabled={selectedAnswerId !== null}
                   onClick={() => handleAnswerClick(answer.id)}
                 >
-                  {answer.answer}
+                  {decodeHTML(answer.answer)}
                 </button>
               );
             })}

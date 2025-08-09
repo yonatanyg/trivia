@@ -36,39 +36,39 @@ function RoomPage() {
   } = useRoom();
 
   if (!participant) return null;
+return (
+  <div className="container">
+    {gameOver ? (
+      <GameOverPanel
+        scores={scores}
+        participants={participants}
+        onExit={exitGame}
+      />
+    ) : !inGame ? (
+      <RoomStuff
+        roomId={roomId}
+        participant={participant}
+        participants={participants}
+        ready={ready}
+        toggleReady={toggleReady}
+        startGame={startGame}
+        roomStatus={roomStatus}
+      />
+    ) : (
+      <GamePanel
+        onExit={exitGame}
+        question={currentQuestion}
+        timer={questionTimer}
+        selectedAnswerId={selectedAnswerId}
+        setSelectedAnswerId={setSelectedAnswerId}
+        sendAnswer={sendAnswer}
+        correctAnswerId={correctAnswerId}
+        scores={scores}
+        participant={participant}
+        participants={participants}
+      />
+    )}
+  </div>
+);
 
-  return (
-    <div className="container">
-      {!inGame ? (
-        <RoomStuff
-          roomId={roomId}
-          participant={participant}
-          participants={participants}
-          ready={ready}
-          toggleReady={toggleReady}
-          startGame={startGame}
-          roomStatus={roomStatus}
-        />
-      ) : gameOver ? (
-        <GameOverPanel
-          scores={scores}
-          participants={participants}
-          onExit={exitGame}
-        />
-      ) : (
-        <GamePanel
-          onExit={exitGame}
-          question={currentQuestion}
-          timer={questionTimer}
-          selectedAnswerId={selectedAnswerId}
-          setSelectedAnswerId={setSelectedAnswerId}
-          sendAnswer={sendAnswer}
-          correctAnswerId={correctAnswerId}
-          scores={scores}
-          participant={participant}
-          participants={participants}
-        />
-      )}
-    </div>
-  );
 }

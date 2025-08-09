@@ -1,0 +1,1054 @@
+{
+  "questions": [
+    {
+      "question": "What video game engine does the videogame Quake 2 run in?",
+      "answers": [
+        {
+          "answer": "iD Tech 2",
+          "is_correct": true
+        },
+        {
+          "answer": "iD Tech 3",
+          "is_correct": false
+        },
+        {
+          "answer": "iD Tech 1",
+          "is_correct": false
+        },
+        {
+          "answer": "Unreal Engine",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which of his six wives was Henry VIII married to the longest?",
+      "answers": [
+        {
+          "answer": "Catherine of Aragon",
+          "is_correct": true
+        },
+        {
+          "answer": "Anne Boleyn",
+          "is_correct": false
+        },
+        {
+          "answer": "Jane Seymour",
+          "is_correct": false
+        },
+        {
+          "answer": "Catherine Parr",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which board game was first released on February 6th, 1935?",
+      "answers": [
+        {
+          "answer": "Monopoly",
+          "is_correct": true
+        },
+        {
+          "answer": "Risk",
+          "is_correct": false
+        },
+        {
+          "answer": "Clue",
+          "is_correct": false
+        },
+        {
+          "answer": "Candy Land",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which of these is NOT a playable character in the 2016 video game Overwatch?",
+      "answers": [
+        {
+          "answer": "Invoker",
+          "is_correct": true
+        },
+        {
+          "answer": "Mercy",
+          "is_correct": false
+        },
+        {
+          "answer": "Winston",
+          "is_correct": false
+        },
+        {
+          "answer": "Zenyatta",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which modern day country is the region that was known as Phrygia in ancient times?",
+      "answers": [
+        {
+          "answer": "Turkey",
+          "is_correct": true
+        },
+        {
+          "answer": "Syria",
+          "is_correct": false
+        },
+        {
+          "answer": "Greece",
+          "is_correct": false
+        },
+        {
+          "answer": "Egypt",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "The metric prefix &quot;atto-&quot; makes a measurement how much smaller than the base unit?",
+      "answers": [
+        {
+          "answer": "One Quintillionth",
+          "is_correct": true
+        },
+        {
+          "answer": "One Billionth",
+          "is_correct": false
+        },
+        {
+          "answer": "One Quadrillionth",
+          "is_correct": false
+        },
+        {
+          "answer": "One Septillionth",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "In the TV series &quot;Person of Interest&quot;, who plays the character &quot;Harold Finch&quot;?",
+      "answers": [
+        {
+          "answer": "Michael Emerson",
+          "is_correct": true
+        },
+        {
+          "answer": "Jim Caviezel",
+          "is_correct": false
+        },
+        {
+          "answer": "Taraji P. Henson",
+          "is_correct": false
+        },
+        {
+          "answer": "Kevin Chapman",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "In what sport does Fanny Chmelar compete for Germany?",
+      "answers": [
+        {
+          "answer": "Skiing",
+          "is_correct": true
+        },
+        {
+          "answer": "Swimming",
+          "is_correct": false
+        },
+        {
+          "answer": "Showjumping",
+          "is_correct": false
+        },
+        {
+          "answer": "Gymnastics",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which of the following snipers has the highest amount of confirmed kills?",
+      "answers": [
+        {
+          "answer": "Simo H&auml;yh&auml;",
+          "is_correct": true
+        },
+        {
+          "answer": "Chris Kyle",
+          "is_correct": false
+        },
+        {
+          "answer": "Vasily Zaytsev",
+          "is_correct": false
+        },
+        {
+          "answer": "Craig Harrison",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "When did the French Revolution begin?",
+      "answers": [
+        {
+          "answer": "May 05 1789",
+          "is_correct": true
+        },
+        {
+          "answer": "April 12 1789",
+          "is_correct": false
+        },
+        {
+          "answer": "April 05 1789",
+          "is_correct": false
+        },
+        {
+          "answer": "May 06 1799",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "In the book series &quot;Odd Thomas&quot;, Danny Jessup has what genetic disease? ",
+      "answers": [
+        {
+          "answer": " Osteogenesis Imperfecta",
+          "is_correct": true
+        },
+        {
+          "answer": "Spinocerebellar ataxia",
+          "is_correct": false
+        },
+        {
+          "answer": "Adrenoleukodystrophy",
+          "is_correct": false
+        },
+        {
+          "answer": "Cystic Fibrosis",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "In &quot;Battle Cats&quot;, what is Moneko / MISS Moneko&#039;s critical percentage rate?",
+      "answers": [
+        {
+          "answer": "15%",
+          "is_correct": true
+        },
+        {
+          "answer": "20%",
+          "is_correct": false
+        },
+        {
+          "answer": "10%",
+          "is_correct": false
+        },
+        {
+          "answer": "25%",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "The towns of Brugelette, Arlon and Ath are located in which country?",
+      "answers": [
+        {
+          "answer": "Belgium",
+          "is_correct": true
+        },
+        {
+          "answer": "Andorra",
+          "is_correct": false
+        },
+        {
+          "answer": "France",
+          "is_correct": false
+        },
+        {
+          "answer": "Luxembourg",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "In &quot;Earthbound&quot;, how does one enter &quot;Master Belch&#039;s&quot; factory?",
+      "answers": [
+        {
+          "answer": "Wait 3 Minutes",
+          "is_correct": true
+        },
+        {
+          "answer": "Enter the password &quot;Fly Honey&quot;",
+          "is_correct": false
+        },
+        {
+          "answer": "Enter the password &quot;Master Belch Rules&quot;",
+          "is_correct": false
+        },
+        {
+          "answer": "Enter the password &quot;Mr Saturn Drools&quot;",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What did the abbreviation &quot;RMS&quot; stand for in the RMS Titanic in 1912?",
+      "answers": [
+        {
+          "answer": "Royal Mail Ship",
+          "is_correct": true
+        },
+        {
+          "answer": "Royal Majesty Service",
+          "is_correct": false
+        },
+        {
+          "answer": "Regular Maritime Schedule ",
+          "is_correct": false
+        },
+        {
+          "answer": "Regulated Maelstrom Sensor",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Nidhogg is a mythical creature from what mythology?",
+      "answers": [
+        {
+          "answer": "Norse",
+          "is_correct": true
+        },
+        {
+          "answer": "Egyptian",
+          "is_correct": false
+        },
+        {
+          "answer": "Greek",
+          "is_correct": false
+        },
+        {
+          "answer": "Hindu",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "In the 1969 Cartoon show &quot;Dastardly and Muttley in Their Flying Machines&quot;, which were NOT one of the lyrics in the opening theme?",
+      "answers": [
+        {
+          "answer": "Stab him",
+          "is_correct": true
+        },
+        {
+          "answer": "Nab him",
+          "is_correct": false
+        },
+        {
+          "answer": "Jab him",
+          "is_correct": false
+        },
+        {
+          "answer": "Tab him",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What is the only country in the world with a flag that doesn&#039;t have four right angles?",
+      "answers": [
+        {
+          "answer": "Nepal",
+          "is_correct": true
+        },
+        {
+          "answer": "Panama",
+          "is_correct": false
+        },
+        {
+          "answer": "Angola",
+          "is_correct": false
+        },
+        {
+          "answer": "Egypt",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "In &quot;Jewelpet Sunshine&quot;, what is the song that plays when Kanon and her friends bust out of prison?",
+      "answers": [
+        {
+          "answer": "I Don&#039;t Want to Miss a Thing",
+          "is_correct": true
+        },
+        {
+          "answer": "Eye Of The Tiger",
+          "is_correct": false
+        },
+        {
+          "answer": "Born to be Wild",
+          "is_correct": false
+        },
+        {
+          "answer": "Ruby Ring",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which sign of the zodiac is represented by the Crab?",
+      "answers": [
+        {
+          "answer": "Cancer",
+          "is_correct": true
+        },
+        {
+          "answer": "Libra",
+          "is_correct": false
+        },
+        {
+          "answer": "Virgo",
+          "is_correct": false
+        },
+        {
+          "answer": "Sagittarius",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Dutch computer scientist Mark Overmars is known for creating which game development engine?",
+      "answers": [
+        {
+          "answer": "Game Maker",
+          "is_correct": true
+        },
+        {
+          "answer": "Stencyl",
+          "is_correct": false
+        },
+        {
+          "answer": "Construct",
+          "is_correct": false
+        },
+        {
+          "answer": "Torque 2D",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What is the last letter of the Greek alphabet?",
+      "answers": [
+        {
+          "answer": "Omega",
+          "is_correct": true
+        },
+        {
+          "answer": "Mu",
+          "is_correct": false
+        },
+        {
+          "answer": "Epsilon",
+          "is_correct": false
+        },
+        {
+          "answer": "Kappa",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Who is the creator of the free, open-source rhythm game &#039;osu!&#039;?",
+      "answers": [
+        {
+          "answer": "Dean &#039;Peppy&#039; Herbert",
+          "is_correct": true
+        },
+        {
+          "answer": "Daisuke &#039;Pixel&#039; Amaya",
+          "is_correct": false
+        },
+        {
+          "answer": "Eric &#039;ConcernedApe&#039; Barone",
+          "is_correct": false
+        },
+        {
+          "answer": "Toby &#039;FwugRadiation&#039; Fox",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which of the following is the standard THX subwoofer crossover frequency?",
+      "answers": [
+        {
+          "answer": "80 Hz",
+          "is_correct": true
+        },
+        {
+          "answer": "70 Hz",
+          "is_correct": false
+        },
+        {
+          "answer": "90 Hz",
+          "is_correct": false
+        },
+        {
+          "answer": "100 Hz",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "How many flagship monsters appear in Monster Hunter Gernerations?",
+      "answers": [
+        {
+          "answer": "4",
+          "is_correct": true
+        },
+        {
+          "answer": "1",
+          "is_correct": false
+        },
+        {
+          "answer": "2",
+          "is_correct": false
+        },
+        {
+          "answer": "3",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "When did the Battle of the Somme begin?",
+      "answers": [
+        {
+          "answer": "July 1st, 1916",
+          "is_correct": true
+        },
+        {
+          "answer": "August 1st, 1916",
+          "is_correct": false
+        },
+        {
+          "answer": "July 2nd, 1916",
+          "is_correct": false
+        },
+        {
+          "answer": "June 30th, 1916",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Chartreuse is a color between yellow and what?",
+      "answers": [
+        {
+          "answer": "Green",
+          "is_correct": true
+        },
+        {
+          "answer": "Red",
+          "is_correct": false
+        },
+        {
+          "answer": "Black",
+          "is_correct": false
+        },
+        {
+          "answer": "Purple",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What country has a horizontal bicolor red and white flag?",
+      "answers": [
+        {
+          "answer": "Monaco",
+          "is_correct": true
+        },
+        {
+          "answer": "Bahrain",
+          "is_correct": false
+        },
+        {
+          "answer": "Malta",
+          "is_correct": false
+        },
+        {
+          "answer": "Liechenstein",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Who assassinated Archduke Franz Ferdinand?",
+      "answers": [
+        {
+          "answer": "Gavrilo Princip",
+          "is_correct": true
+        },
+        {
+          "answer": "Nedeljko Čabrinović",
+          "is_correct": false
+        },
+        {
+          "answer": "Oskar Potiorek",
+          "is_correct": false
+        },
+        {
+          "answer": "Ferdinand Cohen-Blind",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Who co-founded the YouTube Let&#039;s Play channel &quot;Game Grumps&quot; alongside Newgrounds animator Egoraptor?",
+      "answers": [
+        {
+          "answer": "JonTron",
+          "is_correct": true
+        },
+        {
+          "answer": "Pewdiepie",
+          "is_correct": false
+        },
+        {
+          "answer": "Tobuscus",
+          "is_correct": false
+        },
+        {
+          "answer": "Markiplier",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which of the following games in the The Legend of Zelda franchise was released in North America before Japan?",
+      "answers": [
+        {
+          "answer": "The Legend of Zelda: Twilight Princess",
+          "is_correct": true
+        },
+        {
+          "answer": "Zelda II: The Adventure of Link",
+          "is_correct": false
+        },
+        {
+          "answer": "The Legend of Zelda: Four Swords Adventures",
+          "is_correct": false
+        },
+        {
+          "answer": "The Legend of Zelda: Majora&#039;s Mask",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What does the Prt Sc button do?",
+      "answers": [
+        {
+          "answer": "Captures what&#039;s on the screen and copies it to your clipboard",
+          "is_correct": true
+        },
+        {
+          "answer": "Nothing",
+          "is_correct": false
+        },
+        {
+          "answer": "Saves a .png file of what&#039;s on the screen in your screenshots folder in photos",
+          "is_correct": false
+        },
+        {
+          "answer": "Closes all windows",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which of the following is not a type of computer mouse?",
+      "answers": [
+        {
+          "answer": "Smoothie mouse",
+          "is_correct": true
+        },
+        {
+          "answer": "Drum mouse",
+          "is_correct": false
+        },
+        {
+          "answer": "Trackball mouse",
+          "is_correct": false
+        },
+        {
+          "answer": "Optical mouse",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What is the name of Ruby Rose&#039;s weapon from RWBY?",
+      "answers": [
+        {
+          "answer": "Crescent Rose",
+          "is_correct": true
+        },
+        {
+          "answer": "Thorned Rosebud",
+          "is_correct": false
+        },
+        {
+          "answer": "Magnhild",
+          "is_correct": false
+        },
+        {
+          "answer": "Crooked Scythe",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Where does the original Friday The 13th movie take place?",
+      "answers": [
+        {
+          "answer": "Camp Crystal Lake",
+          "is_correct": true
+        },
+        {
+          "answer": "Packanack",
+          "is_correct": false
+        },
+        {
+          "answer": "Higgins Haven",
+          "is_correct": false
+        },
+        {
+          "answer": "Camp Forest Green",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which one of these characters appeared in Marvel vs Capcom: Infinite? ",
+      "answers": [
+        {
+          "answer": "Firebrand",
+          "is_correct": true
+        },
+        {
+          "answer": "Wolverine",
+          "is_correct": false
+        },
+        {
+          "answer": "Dr. Doom",
+          "is_correct": false
+        },
+        {
+          "answer": "Jill Valentine",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What is the name of the comic about a young boy, and a tiger who is actually a stuffed animal?",
+      "answers": [
+        {
+          "answer": "Calvin and Hobbes",
+          "is_correct": true
+        },
+        {
+          "answer": "Winnie the Pooh",
+          "is_correct": false
+        },
+        {
+          "answer": "Albert and Pogo",
+          "is_correct": false
+        },
+        {
+          "answer": "Peanuts",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which company did Valve cooperate with in the creation of the Vive?",
+      "answers": [
+        {
+          "answer": "HTC",
+          "is_correct": true
+        },
+        {
+          "answer": "Oculus",
+          "is_correct": false
+        },
+        {
+          "answer": "Google",
+          "is_correct": false
+        },
+        {
+          "answer": "Razer",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What country was the Trabant 601 manufactured in?",
+      "answers": [
+        {
+          "answer": "East Germany",
+          "is_correct": true
+        },
+        {
+          "answer": "Soviet Union",
+          "is_correct": false
+        },
+        {
+          "answer": "Hungary",
+          "is_correct": false
+        },
+        {
+          "answer": "France",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which one of these characters was first introduced in Sonic Boom: Rise of Lyric?",
+      "answers": [
+        {
+          "answer": "Sticks the Badger",
+          "is_correct": true
+        },
+        {
+          "answer": "Mighty the Armadillo",
+          "is_correct": false
+        },
+        {
+          "answer": "Espio the Chameleon",
+          "is_correct": false
+        },
+        {
+          "answer": "Rouge the Bat",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which iconic Disneyland attraction was closed in 2017 to be remodeled as a &quot;Guardians of the Galaxy&quot; themed ride?",
+      "answers": [
+        {
+          "answer": "Twilight Zone Tower of Terror",
+          "is_correct": true
+        },
+        {
+          "answer": "The Haunted Mansion",
+          "is_correct": false
+        },
+        {
+          "answer": "Pirates of the Caribbean",
+          "is_correct": false
+        },
+        {
+          "answer": "Peter Pan&#039;s Flight",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Dallon Weekes, former touring basist of Panic! At the Disco, created his own band in 2016 called...",
+      "answers": [
+        {
+          "answer": "I Don&#039;t Know How But They Found Me",
+          "is_correct": true
+        },
+        {
+          "answer": "Cheats At Hide And Seek",
+          "is_correct": false
+        },
+        {
+          "answer": "Where Did You All Come From?",
+          "is_correct": false
+        },
+        {
+          "answer": "Run Away From The People",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What is the name of the protagonist of J.D. Salinger&#039;s novel Catcher in the Rye?",
+      "answers": [
+        {
+          "answer": "Holden Caulfield",
+          "is_correct": true
+        },
+        {
+          "answer": "Fletcher Christian",
+          "is_correct": false
+        },
+        {
+          "answer": "Jay Gatsby",
+          "is_correct": false
+        },
+        {
+          "answer": "Randall Flagg",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "These two countries held a commonwealth from the 16th to 18th century.",
+      "answers": [
+        {
+          "answer": "Poland and Lithuania",
+          "is_correct": true
+        },
+        {
+          "answer": "Hutu and Rwanda",
+          "is_correct": false
+        },
+        {
+          "answer": "North Korea and South Korea",
+          "is_correct": false
+        },
+        {
+          "answer": "Bangladesh and Bhutan",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What is the theme song of &quot;Neon Genesis Evangelion&quot;?",
+      "answers": [
+        {
+          "answer": "A Cruel Angel&#039;s Thesis",
+          "is_correct": true
+        },
+        {
+          "answer": "Stardust Crusaders",
+          "is_correct": false
+        },
+        {
+          "answer": "Requiem for a Dream",
+          "is_correct": false
+        },
+        {
+          "answer": "God Knows",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which of the following ancient Near Eastern peoples still exists as a modern ethnic group?",
+      "answers": [
+        {
+          "answer": "Assyrians",
+          "is_correct": true
+        },
+        {
+          "answer": "Babylonians",
+          "is_correct": false
+        },
+        {
+          "answer": "Hittites",
+          "is_correct": false
+        },
+        {
+          "answer": "Elamites",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "Which singer was featured in Jack &Uuml; (Skrillex &amp; Diplo)&#039;s 2015 song &#039;Where Are &Uuml; Now&#039;?",
+      "answers": [
+        {
+          "answer": "Justin Bieber",
+          "is_correct": true
+        },
+        {
+          "answer": "Selena Gomez",
+          "is_correct": false
+        },
+        {
+          "answer": "Ellie Goulding",
+          "is_correct": false
+        },
+        {
+          "answer": "The Weeknd",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What year did the Battle of Agincourt take place?",
+      "answers": [
+        {
+          "answer": "1415",
+          "is_correct": true
+        },
+        {
+          "answer": "1463",
+          "is_correct": false
+        },
+        {
+          "answer": "1401",
+          "is_correct": false
+        },
+        {
+          "answer": "1422",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "How old was Laurence Fishburne when Francis Ford Coppola cast him in Apocalypse Now (1979)? ",
+      "answers": [
+        {
+          "answer": "14",
+          "is_correct": true
+        },
+        {
+          "answer": "16",
+          "is_correct": false
+        },
+        {
+          "answer": "18",
+          "is_correct": false
+        },
+        {
+          "answer": "20",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "question": "What programming language was GitHub written in?",
+      "answers": [
+        {
+          "answer": "Ruby",
+          "is_correct": true
+        },
+        {
+          "answer": "JavaScript",
+          "is_correct": false
+        },
+        {
+          "answer": "Python",
+          "is_correct": false
+        },
+        {
+          "answer": "Lua",
+          "is_correct": false
+        }
+      ]
+    }
+  ]
+}
