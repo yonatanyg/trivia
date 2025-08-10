@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session,joinedload
 import models, schemas
 import random, string
 
+from sqlalchemy.exc import ProgrammingError
+import logging
 from sqlalchemy.sql.expression import func
 
 # ------------------ Questions & Answers ------------------ #
@@ -42,11 +44,10 @@ def get_random_question_with_answers(db: Session, genre: str = None):
 def get_genres(db: Session):
     try:
         genres = db.query(models.Question.genre).distinct().all()
-        # genres is a list of single-element tuples, e.g. [('History',), ('Science',), ...]
         return [g[0] for g in genres if g[0] is not None]
-    except Exception as e:
-        # You can log the error or handle it accordingly
-        print(f"Error fetching genres: {e}")
+    except ProgrammingError as e:
+        logging.error(f"Database error fetching genres: {e}")
+        # Return empty or fallback value so the app continues running
         return []
 
 def get_amount_of_questions(db: Session, genre: str = None):
