@@ -19,22 +19,28 @@
   max-height: 400px;
   overflow-y: auto;
   position: relative;
+  color: #222; /* Dark text color for visibility */
+  font-family: Arial, sans-serif; /* Optional: clean readable font */
 }
 
 .scoreboard-box h2 {
   text-align: center;
+  color: #111; /* Slightly darker for heading */
 }
 
 .scoreboard-box ol {
   padding-left: 20px;
+  color: #222; /* Ensure list text is visible */
 }
 
 .nickname {
   font-weight: bold;
+  color: #222;
 }
 
 .score {
   float: right;
+  color: #222;
 }
 
 .close-btn {
@@ -45,4 +51,9 @@
   border: none;
   font-size: 16px;
   cursor: pointer;
+  color: #444; /* Make close button visible */
+}
+
+.close-btn:hover {
+  color: #000; /* Darker on hover */
 }

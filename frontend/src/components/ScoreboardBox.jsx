@@ -7,19 +7,22 @@ export default function ScoreboardBox({ onClose }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/scoreboard") // <-- adjust to your backend endpoint
+    api.get("/scoreboard")
       .then((res) => {
-        const data = res.data; // This is an object: { nickname: score, ... }
+        const data = res.data; // { nickname: score, ... }
         // Convert to array of [nickname, score] pairs
         const entries = Object.entries(data);
+        // Sort descending by score
+        entries.sort((a, b) => b[1] - a[1]);
         setScores(entries);
-        setLoading(false);  // <--- set loading to false here
+        setLoading(false);
       })
       .catch((err) => {
         console.error("Failed to load scoreboard:", err);
         setLoading(false);
       });
   }, []);
+
 
   return (
     <div className="scoreboard-overlay">
