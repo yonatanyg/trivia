@@ -34,6 +34,22 @@ export default function AdminPage() {
     }
   };
 
+  const handleClearScoreboard = async () => {
+    if (!window.confirm("Are you sure you want to clear the scoreboard? This action cannot be undone.")) {
+      return;
+    }
+    try {
+      const response = await api.delete("/scoreboard");
+      if (response.status === 200 || response.status === 204) {
+        alert("Scoreboard cleared successfully!");
+      } else {
+        alert("Failed to clear scoreboard.");
+      }
+    } catch (error) {
+      alert("Error clearing scoreboard: " + error.message);
+    }
+  };
+
   if (!authorized) {
     return null;
   }
@@ -41,8 +57,11 @@ export default function AdminPage() {
   return (
     <div>
       <h2>Admin Panel</h2>
-      <button onClick={handleSeedDB} style={{ marginBottom: "1rem" }}>
+      <button onClick={handleSeedDB} style={{ marginBottom: "1rem", marginRight: "1rem" }}>
         Seed DB
+      </button>
+      <button onClick={handleClearScoreboard} style={{ marginBottom: "1rem" }}>
+        Clear Scoreboard
       </button>
       <AddQuestions />
       <QuestionsList />

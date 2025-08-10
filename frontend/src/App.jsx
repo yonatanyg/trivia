@@ -3,17 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { api } from "./api";
 import "./App.css";
 import RoomEnterBox from "./components/RoomEnterBox";
+import ScoreboardBox from "./components/ScoreboardBox";
 
 export default function App() {
   const navigate = useNavigate();
 
-  // New states for create mode options in App.jsx
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [questionsPerRound, setQuestionsPerRound] = useState(5);
   const [timePerRound, setTimePerRound] = useState(20);
 
-  // Fetch genres once on mount
+  // New state to toggle scoreboard modal
+  const [showScoreboard, setShowScoreboard] = useState(false);
+
   useEffect(() => {
     api.get("/genres")
       .then((res) => {
@@ -83,9 +85,18 @@ export default function App() {
         />
         <RoomEnterBox mode="join" onSubmit={handleJoin} />
       </div>
-      <button onClick={handleAdmin} className="btn admin">
-        Admin
-      </button>
+      <div className="buttons-row">
+        <button onClick={() => setShowScoreboard(true)} className="btn scoreboard">
+          Scoreboard
+        </button>
+        <button onClick={handleAdmin} className="btn admin">
+          Admin
+        </button>
+      </div>
+
+      {showScoreboard && (
+        <ScoreboardBox onClose={() => setShowScoreboard(false)} />
+      )}
     </div>
   );
 }

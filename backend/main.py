@@ -43,7 +43,8 @@ app.add_middleware(
 @app.on_event("startup")
 def startup_event():
     db = next(database.get_db())
-    #seed.seed_data(db)
+    #check if migrations needed (if db fits models)
+    # if so, create db tables again
 
 # -----------------------------
 # Questions Endpoints
@@ -173,6 +174,14 @@ def seed_db():
     db = next(database.get_db())
     seed.seed_data(db)
 
+@app.get("/scoreboard")
+def read_scoreboard(db: Session = Depends(database.get_db)):
+    return crud.get_top_scoreboard(db)
+
+@app.delete("/scoreboard")
+def del_scoreboard(db: Session = Depends(database.get_db)):
+    crud.delete_scores(db)
+    return {"message": "Scoreboard cleared successfully"}
 
 ### -- web sockets -- ###
 

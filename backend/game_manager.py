@@ -98,6 +98,24 @@ class GameManager:
         logger.info(f"[{timestamp()}] Overall winners: {winners}")
         return winners if len(winners) > 1 else winners[0]
 
+    def update_db_scores(self):
+        """
+        Updates the scoreboard in the DB with current scores.
+        """
+        # Map participant IDs to nicknames
+        participants_score = {
+            self.room.participants[pid]["name"]: score
+            for pid, score in self.scores.items()
+            if pid in self.room.participants
+        }
+
+        if not participants_score:
+            logger.info(f"[{timestamp()}] No scores to update in scoreboard.")
+            return
+
+        logger.info(f"[{timestamp()}] Updating scoreboard with: {participants_score}")
+        crud.update_scoreboard(self.db, participants_score)
+
     async def run_game(self):
         logger.info(f"[{timestamp()}] Game started.")
         for round_num in range(self.num_rounds):
@@ -139,6 +157,10 @@ class GameManager:
             await asyncio.sleep(3)
 
         overall_winner = self.get_overall_winner()
+
+        self.update_db_scores()
         logger.info(f"[{timestamp()}] Game over. Final winner(s): {overall_winner}")
         self.room.end_game()
         await self.room.broadcast({"event": "game_over", "winner": overall_winner})
+
+
