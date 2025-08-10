@@ -15,6 +15,8 @@ export function RoomProvider({ children }) {
 
   const socketRef = useRef(null);
   const timerRef = useRef(null);
+  const questionStartRef = useRef(null); // <--- new
+
 
   const [participants, setParticipants] = useState([]);
   const [ready, setReady] = useState(false);
@@ -25,6 +27,7 @@ export function RoomProvider({ children }) {
   const [scores, setScores] = useState({});
   const [gameOver, setGameOver] = useState(false);
   const [roomStatus, setRoomStatus] = useState("waiting");
+  const [roomGenre,setRoomGenre] = useState(null);
 
   // Derived state: inGame will always match roomStatus
   const inGame = roomStatus === "in_game";
@@ -91,6 +94,10 @@ export function RoomProvider({ children }) {
           setQuestionTimer(message.time);
           setSelectedAnswerId(null);
           setCorrectAnswerId(null);
+
+          // Store when the question arrived
+          questionStartRef.current = Date.now();
+
           if (timerRef.current) clearInterval(timerRef.current);
           timerRef.current = setInterval(() => {
             setQuestionTimer((prev) => {
@@ -133,6 +140,7 @@ export function RoomProvider({ children }) {
       try {
         const res = await api.get(`/rooms/${roomId}/`);
         setRoomStatus(res.data.state);
+        setRoomGenre(res.data.genre);
       } catch (err) {
         console.error("Failed to fetch room status:", err);
         if (err.response && err.response.status === 404) {
@@ -163,10 +171,21 @@ export function RoomProvider({ children }) {
   };
 
   const sendAnswer = (answerId) => {
-    socketRef.current?.send(
-      JSON.stringify({ event: "player_answered", answer: answerId })
-    );
-  };
+      if (!questionStartRef.current) {
+        console.warn("No question start time recorded!");
+        return;
+      }
+      const now = Date.now();
+      const timeTakenSeconds = (now - questionStartRef.current) / 1000; // float seconds
+
+      socketRef.current?.send(
+        JSON.stringify({
+          event: "player_answered",
+          answer: answerId,
+          time_took: timeTakenSeconds,
+        })
+      );
+    };
 
   const exitGame = () => {
     setGameOver(false);
@@ -200,6 +219,7 @@ export function RoomProvider({ children }) {
         scores,
         gameOver,
         roomStatus,
+        roomGenre,
       }}
     >
       {children}

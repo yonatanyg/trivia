@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./RoomStuff.css"; // 👈 New CSS file
+import "./RoomStuff.css";
 
 export default function RoomStuff({
   roomId,
@@ -10,6 +10,7 @@ export default function RoomStuff({
   toggleReady,
   startGame,
   roomStatus,
+  roomGenre, // genre prop
 }) {
   return (
     <div className="room-container">
@@ -21,6 +22,9 @@ export default function RoomStuff({
       <div className="room-info">
         <p>
           Room Code: <span className="room-code">{roomId}</span>
+        </p>
+        <p>
+          Genre: <span className="room-genre">{roomGenre || "Any"}</span>
         </p>
         <p>
           You are: <span className="participant-name">{participant.name}</span>

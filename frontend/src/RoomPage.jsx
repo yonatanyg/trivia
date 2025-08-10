@@ -33,6 +33,7 @@ function RoomPage() {
     gameOver,
     roomStatus,
     roomId,
+    roomGenre,
   } = useRoom();
 
   if (!participant) return null;
@@ -53,6 +54,7 @@ return (
         toggleReady={toggleReady}
         startGame={startGame}
         roomStatus={roomStatus}
+        roomGenre={roomGenre}
       />
     ) : (
       <GamePanel

@@ -4,18 +4,6 @@ import random, string
 
 from sqlalchemy.sql.expression import func
 
-# ------------------ Movies ------------------ #
-def get_movies(db: Session):
-    return db.query(models.Movie).all()
-
-def create_movie(db: Session, movie: schemas.MovieCreate):
-    db_movie = models.Movie(name=movie.name, director=movie.director)
-    db.add(db_movie)
-    db.commit()
-    db.refresh(db_movie)
-    return db_movie
-
-
 # ------------------ Questions & Answers ------------------ #
 def get_questions(db: Session):
     return db.query(models.Question).all()
@@ -39,11 +27,25 @@ def create_question(db: Session, question: schemas.QuestionCreate):
     db.refresh(db_question)
     return db_question
 
-def get_random_question_with_answers(db: Session):
-    question = (
+def get_random_question_with_answers(db: Session, genre: str = None):
+    query = (
         db.query(models.Question)
         .options(joinedload(models.Question.answers))  # eager load answers
-        .order_by(func.random())  # random order
-        .first()
     )
+
+    if genre:  # filter by genre if provided
+        query = query.filter(models.Question.genre == genre)
+
+    question = query.order_by(func.random()).first()
     return question
+
+def get_genres(db: Session):
+    genres = db.query(models.Question.genre).distinct().all()
+    # genres is a list of single-element tuples, e.g. [('History',), ('Science',), ...]
+    return [g[0] for g in genres if g[0] is not None]
+
+def get_amount_of_questions(db: Session, genre: str = None):
+    query = db.query(func.count(models.Question.id))
+    if genre:
+        query = query.filter(models.Question.genre == genre)
+    return query.scalar()  # returns the count as an integer

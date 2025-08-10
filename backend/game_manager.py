@@ -14,27 +14,28 @@ def timestamp():
     return datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3] + " UTC"
 
 class GameManager:
-    def __init__(self, room, db: Session, num_rounds=5, timeout_seconds=20):
+    def __init__(self, room, db: Session):
         self.room = room
         self.db = db
-        self.num_rounds = num_rounds
-        self.timeout_seconds = timeout_seconds
+        self.num_rounds = room.questions_per_round
+        self.timeout_seconds = room.time_per_round
         self.questions_asked = set()
 
-        self.current_answers = {}  # participant_id -> answer id
+        self.current_answers = {}  # participant_id -> (answer id, time_took)
         self.scores = {}           # participant_id -> score
 
         self._answers_received_event = asyncio.Event()
 
-    def receive_answer(self, participant_id, answer):
-        logger.info(f"[{timestamp()}] Received answer from {participant_id}: {answer}")
-        self.current_answers[participant_id] = answer
+    def receive_answer(self, participant_id, answer, time_taken_seconds):
+        logger.info(f"[{timestamp()}] Received answer from {participant_id}: {answer} with time taken: {time_taken_seconds}s")
+        # Store tuple of (answer_id, time_taken_seconds)
+        self.current_answers[participant_id] = (answer, time_taken_seconds)
         if all(pid in self.current_answers for pid in self.room.participants.keys()):
             self._answers_received_event.set()
 
     def get_next_question(self):
         while True:
-            question = crud.get_random_question_with_answers(self.db)
+            question = crud.get_random_question_with_answers(self.db, genre=self.room.genre)
             if question is None:
                 logger.warning(f"[{timestamp()}] No questions available in database.")
                 return None
@@ -59,10 +60,23 @@ class GameManager:
         correct_answer_ids = {ans.id for ans in self.current_question.answers if ans.is_correct}
         logger.info(f"[{timestamp()}] Correct answer IDs for question {self.current_question.id}: {correct_answer_ids}")
 
-        for pid, answer_id in self.current_answers.items():
+        max_points = 200
+        min_points = 50
+        timeout = self.timeout_seconds
+
+        for pid, (answer_id, time_taken) in self.current_answers.items():
             if answer_id in correct_answer_ids:
-                self.scores[pid] = self.scores.get(pid, 0) + 1
-                logger.info(f"[{timestamp()}] Participant {pid} answered correctly. New score: {self.scores[pid]}")
+                # Clamp time_taken
+                time_taken = max(0, min(time_taken, timeout))
+
+                # Linear scale from max_points to min_points
+                points_earned = round(min_points + (max_points - min_points) * (1 - time_taken / timeout))
+
+                self.scores[pid] = self.scores.get(pid, 0) + points_earned
+                logger.info(
+                    f"[{timestamp()}] Participant {pid} answered correctly in {time_taken:.2f}s. "
+                    f"Points earned: {points_earned}. New score: {self.scores[pid]}"
+                )
             else:
                 logger.info(f"[{timestamp()}] Participant {pid} answered incorrectly.")
 

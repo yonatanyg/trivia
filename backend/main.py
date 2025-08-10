@@ -5,6 +5,14 @@ import models, schemas, crud, database, seed
 import asyncio
 import os
 
+from pydantic import BaseModel
+from typing import Optional
+
+class RoomCreateRequest(BaseModel):
+    questions_per_round: int = 5
+    time_per_round: int = 20
+    genre: Optional[str] = None
+
 from fastapi.middleware.cors import CORSMiddleware
 
 from room_manager import room_manager
@@ -35,18 +43,7 @@ app.add_middleware(
 @app.on_event("startup")
 def startup_event():
     db = next(database.get_db())
-    seed.seed_data(db)
-
-# -----------------------------
-# Movies Endpoints
-# -----------------------------
-@app.get("/movies/", response_model=list[schemas.Movie])
-def read_movies(db: Session = Depends(database.get_db)):
-    return crud.get_movies(db)
-
-@app.post("/movies/", response_model=schemas.Movie)
-def create_movie(movie: schemas.MovieCreate, db: Session = Depends(database.get_db)):
-    return crud.create_movie(db, movie)
+    #seed.seed_data(db)
 
 # -----------------------------
 # Questions Endpoints
@@ -62,13 +59,18 @@ def create_question(question: schemas.QuestionCreate, db: Session = Depends(data
 # -------- Rooms Endpoints (no DB, use room_manager) --------
 
 @app.post("/rooms/")
-def create_room():
-    logger.info("Test")
-    room = room_manager.create_room()
+def create_room(data: RoomCreateRequest):
+    # Pass parameters to your room_manager or wherever needed
+    room = room_manager.create_room(data.questions_per_round,
+                                    data.time_per_round,
+                                    data.genre)
+    
+
     return {
         "code": room.code,
         "state": room.state,
-        "participants": list(room.participants.values())
+        "participants": list(room.participants.values()),
+        "genre": room.genre
     }
 
 @app.get("/rooms/")
@@ -90,7 +92,8 @@ def get_room(code: str):
     return {
         "code": room.code,
         "state": room.state,
-        "participants": list(room.participants.values())
+        "participants": list(room.participants.values()),
+        "genre": room.genre
     }
 
 @app.put("/rooms/{code}/state")
@@ -156,6 +159,20 @@ def remove_participant(participant_id: int):
             return {"detail": f"Participant {participant_id} removed"}
     raise HTTPException(status_code=404, detail="Participant not found")
 
+# -------- Participants Endpoints --------
+
+# -------- More Endpoints ----------
+
+@app.get("/genres")
+def read_genres(db: Session = Depends(database.get_db)):
+    logger.info("Attemting to get genres")
+    return crud.get_genres(db)
+
+@app.post("/seed_db")
+def seed_db():
+    db = next(database.get_db())
+    seed.seed_data(db)
+
 
 ### -- web sockets -- ###
 
@@ -172,7 +189,7 @@ async def websocket_endpoint(websocket: WebSocket, code: str, participant_id: in
         while True:
             data = await websocket.receive_json()
             event = data.get("event")
-
+            logger.info("Got info")
             if event == "set_ready":
                 ready = bool(data.get("ready", False))
                 room.set_ready(participant_id, ready)
@@ -191,7 +208,12 @@ async def websocket_endpoint(websocket: WebSocket, code: str, participant_id: in
 
             elif event == "start_game":
                 if room_manager.is_room_ready_to_start(code):
+                    logger.info("trying to start")
                     if room.state == "waiting":
+                        if room.questions_per_round > crud.get_amount_of_questions(next(database.get_db()),room.genre):
+                            logger.error("Not Enough Questions to start")
+                            return
+                        logger.info("trying to start even mor")
                         game = game_manager.GameManager(room, next(database.get_db()))
 
                         await room.broadcast({
@@ -205,7 +227,9 @@ async def websocket_endpoint(websocket: WebSocket, code: str, participant_id: in
                         asyncio.create_task(game.run_game())
 
             elif event == "player_answered":
-                room.game_manager.receive_answer(participant_id, data.get("answer"))
+                room.game_manager.receive_answer(participant_id,
+                                                  data.get("answer"),
+                                                  data.get("time_took"))
 
             else:
                 await room.broadcast(data)
