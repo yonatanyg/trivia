@@ -40,9 +40,14 @@ def get_random_question_with_answers(db: Session, genre: str = None):
     return question
 
 def get_genres(db: Session):
-    genres = db.query(models.Question.genre).distinct().all()
-    # genres is a list of single-element tuples, e.g. [('History',), ('Science',), ...]
-    return [g[0] for g in genres if g[0] is not None]
+    try:
+        genres = db.query(models.Question.genre).distinct().all()
+        # genres is a list of single-element tuples, e.g. [('History',), ('Science',), ...]
+        return [g[0] for g in genres if g[0] is not None]
+    except Exception as e:
+        # You can log the error or handle it accordingly
+        print(f"Error fetching genres: {e}")
+        return []
 
 def get_amount_of_questions(db: Session, genre: str = None):
     query = db.query(func.count(models.Question.id))
