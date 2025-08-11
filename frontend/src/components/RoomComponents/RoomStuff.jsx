@@ -56,9 +56,9 @@ export default function RoomStuff({
       <div className="buttons">
         <button
           onClick={toggleReady}
-          className={`btn ${ready ? "btn-green" : "btn-red"}`}
+          className={`btn ${ready ? "btn-red" : "btn-green"}`}
         >
-          {ready ? "Ready" : "Not Ready"}
+          {ready ? "Not Ready" : "Ready"}
         </button>
 
         <button onClick={startGame} className="btn btn-blue">

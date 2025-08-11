@@ -70,6 +70,8 @@ export default function App() {
 
   return (
     <div className="app-container">
+
+
       <h1 className="title">Trivia Arena</h1>
       <div className="room-boxes">
         <RoomEnterBox

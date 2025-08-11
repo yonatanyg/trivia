@@ -24,10 +24,8 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+
+  /* Background image styles */
 }
 
 h1 {
@@ -66,3 +64,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
