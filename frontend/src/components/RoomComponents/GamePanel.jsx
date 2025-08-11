@@ -58,20 +58,26 @@ export default function GamePanel({
           <h2>{decodeHTML(question.question)}</h2>
           <div className="answers">
             {shuffledAnswers.map((answer) => {
-              const isCorrect =
-                correctAnswerId && correctAnswerId.includes(answer.id);
+            return (
+              <button
+                key={answer.id}
+                className={`answer-button ${
+                  correctAnswerId &&
+                  selectedAnswerId === answer.id &&
+                  !correctAnswerId.includes(answer.id)
+                    ? "incorrect"
+                    : correctAnswerId && correctAnswerId.includes(answer.id)
+                    ? "correct"
+                    : ""
+                }`}
+                disabled={selectedAnswerId !== null}
+                onClick={() => handleAnswerClick(answer.id)}
+              >
+                {decodeHTML(answer.answer)}
+              </button>
+            );
+          })}
 
-              return (
-                <button
-                  key={answer.id}
-                  className={`answer-button ${isCorrect ? "correct" : ""}`}
-                  disabled={selectedAnswerId !== null}
-                  onClick={() => handleAnswerClick(answer.id)}
-                >
-                  {decodeHTML(answer.answer)}
-                </button>
-              );
-            })}
           </div>
           <div className="timer">⏳ {timer}s</div>
         </div>

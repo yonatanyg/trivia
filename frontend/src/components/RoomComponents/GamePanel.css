@@ -24,3 +24,10 @@
   border-color: #388e3c;
   font-weight: bold;
 }
+
+.answer-button.incorrect {
+  background-color: #ff0c0c; /* Green */
+  color: white;
+  border-color: #ff0000;
+  font-weight: bold;
+}
