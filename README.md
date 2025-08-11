@@ -6,6 +6,7 @@ Users can test their knowledge across various topics with dynamically fetched qu
 track their scores, and enjoy a smooth, responsive interface.
 
 🛠️ Tech Stack
+
 Frontend: React ⚛️
 
 Backend: FastAPI (Python) 🐍
