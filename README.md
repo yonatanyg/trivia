@@ -1,4 +1,5 @@
 🎉 Trivia Arena Project
+
 📝 Description
 This is a full-stack trivia web application designed to provide a fun and interactive quiz experience.
 Users can test their knowledge across various topics with dynamically fetched questions,
